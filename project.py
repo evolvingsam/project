@@ -20,6 +20,12 @@ class Class:
             return True
         else:
             return False
+    
+    def rank_students(self):
+        ranked = [student.get_average for student in self.students]
+
+        return sorted(ranked, key=lambda student: -student[self.student.get_average])
+
 
 class Student():
 
@@ -35,15 +41,32 @@ class Student():
     def __str__(self):
         return "Name: " + self.name + "\n" + "Class: " + self.grade
     
-    def student_scores(self):
+    def get_scores(self):
         
-        self.subject_list = get_subject()
-        
+        subject_list = get_subject()
+        subject_dict = {}
+        for subject in subject_list:
+            subject_title, subject_ca, subject_exam, subject_total = subject[0], 
+            subject[1], subject[2], int(subject[1]) + int(subject[2])
+            subject_dict[subject_title] = [subject_ca, subject_exam, str(subject_total)]
+
+        return subject_dict
+
+
+
 
     def get_average(self):
         """
         Sums the total score of all the subjects and return the average
         """
+        scores = self.get_scores()
+        total_score = 0
+        for subject in scores:
+            total_score += int(scores[subject][2])
+            self.average = total_score/len(scores)
+        return {self.name : (self.average)}
+
+
 
 
 
@@ -69,8 +92,14 @@ def get_subject():
 
             
 
+def student_scores_table(subjects):
+    ...
 
-                             
+def students_average_table(students):
+    ...
+
+def students_by_rank(grade):
+    ...                         
 
 def main():
     print(get_subject())
