@@ -2,13 +2,13 @@ import library
 
 class Class:
 
-    def __init__(self, grade, subjects=[]):
+    def __init__(self, grade):
         self.grade = grade
         self.students = []
-        self.subjects = subjects
+     
     
     def __str__(self):
-        return 'Subjects offered' in + self.grade + 'are' + '\n'.join(self.subjects)
+        return "Subjects offered" in + self.grade + "are" + "\n".join(self.subjects)
         
     
     def admit_student(self, student):
@@ -21,7 +21,7 @@ class Class:
         else:
             return False
 
-class Student(Class):
+class Student():
 
     def __init__(self, name, grade):
         """
@@ -30,24 +30,52 @@ class Student(Class):
         """
         self.name = name
         self.grade = grade
-        self.subjects = library.copy.deepcopy(grade.subjects)
 
     
     def __str__(self):
-        return 'Name: ' + self.name + '\n' + 'Class: ' + self.grade
+        return "Name: " + self.name + "\n" + "Class: " + self.grade
+    
+    def student_scores(self):
+        
+        self.subject_list = get_subject()
+        
 
     def get_average(self):
-        ...
+        """
+        Sums the total score of all the subjects and return the average
+        """
+
+
+
     
 
 
 
+def get_subject():
+    subjects = []
 
+    while True:
+        subject = input("Enter subject, CA, EXAM. In that order (type 'end' to stop): ")
+        if subject == "end":
+            break
+        subject = subject.split(",")
+       
+
+        if len(subject) == 3 and subject[1].strip().isdigit() and subject[2].strip().isdigit():
+            subjects.append(tuple(subject)) 
+    
+    return subjects
+
+
+            
+
+
+                             
 
 def main():
-    ...
+    print(get_subject())
 
-if __name__=='__main__':
+if __name__=="__main__":
     main()
 
 
