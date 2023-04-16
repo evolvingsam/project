@@ -86,17 +86,14 @@ def get_subject():
     subjects = []
 
     while True:
-        subject = input("Enter SUBJECT CA EXAM in that order  (type 'end' to stop): ")
+        subject = input("Enter SUBJECT CA EXAM in that order  (type 'end' to stop): ").strip()
         if subject == "end":
             break
         subject = subject.split()
        
 
         if len(subject) == 3 and subject[1].strip().isdigit() and subject[2].strip().isdigit():
-            subjects.append(tuple(subject)) 
-
-
-    
+            subjects.append(tuple(subject))    
     return subjects
 
 
@@ -108,6 +105,14 @@ def rank_students(students):
         return students
         
 
+def students_by_rank(grade, students):
+    output = str(grade).center(40, " ") + "\n"
+    for student in students:
+        output += student[0].rjust(25, " ") + "|" + str(student[1]).rjust(4, " ") + "|" + str(student[2]).rjust(4, " ") + "\n"
+        
+    
+    return output
+
 def get_padding(key):
 
     pad = 0
@@ -118,12 +123,6 @@ def get_padding(key):
 
 
 
-def students_by_rank(grade, students):
-    output = str(grade).center(40, " ") + "\n"
-    for student in students:
-        output += student[0].rjust(25, " ") + "|" + str(student[1]).rjust(4, " ") + "|" + str(student[2]).rjust(4, " ") + "\n"
-    
-    return output
                             
 
 
@@ -141,36 +140,35 @@ def main():
     print(students_by_rank(ss1, rank_students(students)))"""
 
     output = "\n"
-    #student_score_sheet = []
+    
     while True:
-        user_input = input("Grade: (type 'end' to stop ) ")      
+        user_input = input("Grade: (type 'end' to stop ) ").strip()     
         if user_input == "end":
             break
         grade = Grade(user_input)
         g_averages = []
-        students = []
-        #g_student_score_sheet = []
+        
+        
         while True:
-            name = input("Student's name: (type end to stop) ")
+            name = input("Student's name: (type end to stop) ").strip()
             if name == "end":
                 break
             first_name, last_name = name.split()
             student = Student(first_name, last_name, grade)
             student_scores = student.get_scores()
             output += "\n" + student.student_scores_table(student_scores)
-            #g_student_score_sheet.append(student.student_scores_table(student_scores))
             student_total = student.total(student_scores)
             student_average = student.average(student_total)
             g_averages.append(student_average)
-            print(g_averages)
-        print(rank_students(g_averages))
+            
+        
         students_score_sheet = students_by_rank(str(grade), rank_students(g_averages))
         output += "\n" + students_score_sheet
-        #averages.append(g_averages)
+        
     
     
     print(output)
-    #print(averages)
+    
 
 
 if __name__=="__main__":
