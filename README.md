@@ -1,13 +1,13 @@
 # REPORT CARD
-    #### Video Demo:  <URL HERE>
-    #### Description:
-    This is a program that automates the process of making report sheets for students. It was inspired by the fact that long, long hours are being spent in preparing report cards fot student and ranking the students from highest to lowest at the end of each term in the school where I teach. The manual approach is slow,, takes days and sometimes more than a week to complete and it is also error prone. So I decided to try my hands on a **real world** hence, this code.
+  #### Video Demo:  <URL HERE>
+  #### Description:
+  This is a program that automates the process of making report sheets for students. It was inspired by the fact that long, long hours are being spent in preparing report cards fot student and ranking the students from highest to lowest at the end of each term in the school where I teach. The manual approach is slow,, takes days and sometimes more than a week to complete and it is also error prone. So I decided to try my hands on a **real world** hence, this code.
 
-    The files in this project are:
-    * project.py
-    * main.py
-    * test_project.py
-    * README.md
+  The files in this project are:
+  * project.py
+  * main.py
+  * test_project.py
+  * README.md
 
     *project.py*
 
