@@ -1,4 +1,4 @@
-import library
+
 import re
 
 class Grade:
@@ -117,18 +117,7 @@ def get_padding(key):
 
 
 def main():
-    """ss1 = Grade("Ss1")
-    bola_dayo = Student("Bola", "Dayo", ss1)
-    sola_funmi = Student("Sola", "Funmi",ss1)
-    b_scores = bola_dayo.get_scores()
-    b_total = bola_dayo.total(b_scores)
-    b_avg = bola_dayo.average(b_total)
-    s_scores = sola_funmi.get_scores()
-    s_total = sola_funmi.total(s_scores)
-    s_avg = sola_funmi.average(s_total)
-    students = [b_avg, s_avg]
-    print(students_by_rank(ss1, rank_students(students)))"""
-
+    
     output = "\n"
     
     while True:
