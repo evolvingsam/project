@@ -1,4 +1,5 @@
 import library
+import re
 
 class Grade:
 
@@ -11,15 +12,6 @@ class Grade:
         return self.grade
         
     
-    def admit(self, student):
-        self.students.append(student)
-    
-    def withdraw(self, student):
-        if self.confirm_student(student):
-            self.students.remove(student)
-            return True
-        else:
-            return False
     
     
 
@@ -38,9 +30,7 @@ class Student():
     def __str__(self):
         return "Name: " + self.name + "\n" + "Grade: " + self.grade
     
-    def get_scores(self):
-        
-        subject_list = get_subject()
+    def get_scores(self, subject_list):  
         #print(subject_list)
         subject_dict = {}
         for subject in subject_list:
@@ -72,7 +62,7 @@ class Student():
                 output += " " + str(score) + "|"
 
             output += "\n"
-        return output
+        return re.sub(r"\n+", "\n",output).strip()
         
 
 
@@ -155,7 +145,8 @@ def main():
                 break
             first_name, last_name = name.split()
             student = Student(first_name, last_name, grade)
-            student_scores = student.get_scores()
+            subject_list = get_subject()
+            student_scores = student.get_scores(subject_list)
             output += "\n" + student.student_scores_table(student_scores)
             student_total = student.total(student_scores)
             student_average = student.average(student_total)
