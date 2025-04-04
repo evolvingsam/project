@@ -1,161 +1,94 @@
-
 import re
+from typing import List, Dict, Tuple
 
 class Grade:
-
-    def __init__(self, grade):
+    def __init__(self, grade: str):
         self.grade = grade
         self.students = []
-     
-    
-    def __str__(self):
+
+    def __str__(self) -> str:
         return self.grade
-        
-    
-    
-    
 
-class Student():
-
-    def __init__(self, first_name, last_name, grade):
-        """
-        name: The name of the student
-        grade: The grade, that is the Grade the student is in, e.g ss1, ss2
-        """
+class Student:
+    def __init__(self, first_name: str, last_name: str, grade: Grade):
         self.first_name = first_name
         self.last_name = last_name
         self.grade = grade
 
-    
-    def __str__(self):
-        return "Name: " + self.name + "\n" + "Grade: " + self.grade
-    
-    def get_scores(self, subject_list):  
-        #print(subject_list)
-        subject_dict = {}
-        for subject in subject_list:
-            subject_title, subject_ca, subject_exam, subject_total = subject[0], subject[1], subject[2], int(subject[1]) + int(subject[2])
-            subject_dict[subject_title] = [(subject_ca), (subject_exam), (subject_total)]
+    def __str__(self) -> str:
+        return f"Name: {self.first_name} {self.last_name}\nGrade: {self.grade}"
 
-        return subject_dict
-    
-    def total(self, scores):
-        total_score = 0
-        for subject in scores:
-            total_score += int(scores[subject][2])
-        return (total_score, len(scores))
+    def get_scores(self, subject_list: List[Tuple[str, str, str]]) -> Dict[str, List[int]]:
+        return {subject[0]: [int(subject[1]), int(subject[2]), int(subject[1]) + int(subject[2])] for subject in subject_list}
 
+    def total(self, scores: Dict[str, List[int]]) -> Tuple[int, int]:
+        return sum(score[2] for score in scores.values()), len(scores)
 
+    def average(self, total: Tuple[int, int]) -> Tuple[str, int, float]:
+        return self.first_name + "_" + self.last_name, total[0], total[0] / total[1]
 
-    def average(self, total):
-       
-        average = total[0]/total[1]
-        return (self.first_name + "_" + self.last_name, total[0], (average))
+    def student_scores_table(self, subjects: Dict[str, List[int]]) -> str:
+        pad = max(len(key) for key in subjects.keys())
+        output = [f"____{self.first_name}_{self.last_name} Score Sheet____"]
         
-    def student_scores_table(self, subjects):
-        output = (self.first_name + "_" + self.last_name + " " + "Score sheet").center(30, "_") + "\n"
-    
-        pad = get_padding(subjects)
         for key, value in subjects.items():
-            output += key.rjust(pad, " ") + "|"
-            for score in value:
-                output += " " + str(score) + "|"
-
-            output += "\n"
-        return re.sub(r"\n+", "\n",output).strip()
+            output.append(f"{key.rjust(pad)} | {' | '.join(map(str, value))} |")
         
+        return "\n".join(output).strip()
 
 
-
-
-    
-
-
-
-def get_subject():
+def get_subjects() -> List[Tuple[str, str, str]]:
     subjects = []
-
     while True:
-        subject = input("Enter SUBJECT CA EXAM in that order  (type 'end' to stop): ").strip()
-        if subject == "end":
+        subject = input("Enter SUBJECT CA EXAM (type 'end' to stop): ").strip()
+        if subject.lower() == "end":
             break
-        subject = subject.split()
-       
-
-        if len(subject) == 3 and subject[1].strip().isdigit() and subject[2].strip().isdigit():
-            subjects.append(tuple(subject))    
+        parts = subject.split()
+        if len(parts) == 3 and parts[1].isdigit() and parts[2].isdigit():
+            subjects.append((parts[0], parts[1], parts[2]))
     return subjects
 
 
-            
-def rank_students(students):
-        #ranked = [student.get_average() for student in self.students]
-        
-        students =  sorted(students, key=lambda student: student[1], reverse=True)
-        return students
-        
+def rank_students(students: List[Tuple[str, int, float]]) -> List[Tuple[str, int, float]]:
+    return sorted(students, key=lambda student: student[1], reverse=True)
+
 
 def students_by_rank(grade, students):
     output = str(grade).center(40, " ") + "\n"
     for student in students:
-        output += student[0].rjust(25, " ") + "|" + str(student[1]).rjust(4, " ") + "|" + str(student[2]).rjust(4, " ") + "\n"
-        
-    
+        output += student[0].rjust(25, " ") + "|" + str(student[1]).rjust(4, " ") + "|" + str(student[2]).rjust(4, " ") + "\n"   
     return output
-
-def get_padding(key):
-
-    pad = 0
-    for keys in key.keys():
-        pad = len(keys) if len(keys) > pad else pad
-    return pad
- 
-
-
-
-                            
 
 
 def main():
-    
-    output = "\n"
-    
+    output = []
     while True:
-        user_input = input("Grade: (type 'end' to stop ) ").strip()     
-        if user_input == "end":
+        user_input = input("Grade: (type 'end' to stop) ").strip()
+        if user_input.lower() == "end":
             break
+        
         grade = Grade(user_input)
         g_averages = []
         
-        
         while True:
-            name = input("Student's name: (type end to stop) ").strip()
-            if name == "end":
+            name = input("Student's name: (type 'end' to stop) ").strip()
+            if name.lower() == "end":
                 break
+            
             first_name, last_name = name.split()
             student = Student(first_name, last_name, grade)
-            subject_list = get_subject()
+            subject_list = get_subjects()
             student_scores = student.get_scores(subject_list)
-            output += "\n" + student.student_scores_table(student_scores)
+            output.append(student.student_scores_table(student_scores))
+            
             student_total = student.total(student_scores)
             student_average = student.average(student_total)
             g_averages.append(student_average)
-            
         
-        students_score_sheet = students_by_rank(str(grade), rank_students(g_averages))
-        output += "\n" + students_score_sheet
-        
+        output.append(students_by_rank(str(grade), rank_students(g_averages)))
     
-    
-    print(output)
-    
+    print("\n".join(output))
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
-
-
-
-
-
-    
